@@ -15,17 +15,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import { formatMoney } from "@/lib/format";
 import { PartnerLinkManager } from "./partner-link-manager";
 
 export const metadata = { title: "Detalhe do parceiro" };
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
-function formatCurrency(value: number) {
-  return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-}
-
-function formatDate(date: Date) {
+function formatDateTime(date: Date) {
   return new Date(date).toLocaleString("pt-BR");
 }
 
@@ -72,11 +69,11 @@ export default async function PartnerDetailPage(props: PageProps<"/admin/parceir
         </div>
         <div className="rounded-lg border border-border p-4">
           <p className="text-xs text-muted-foreground">Vendas geradas</p>
-          <p className="mt-1 font-display text-xl text-foreground">{formatCurrency(totalSales)}</p>
+          <p className="mt-1 font-display text-xl text-foreground">{formatMoney(totalSales)}</p>
         </div>
         <div className="rounded-lg border border-border p-4">
           <p className="text-xs text-muted-foreground">Comissão pendente</p>
-          <p className="mt-1 font-display text-xl text-foreground">{formatCurrency(pendingCommission)}</p>
+          <p className="mt-1 font-display text-xl text-foreground">{formatMoney(pendingCommission)}</p>
         </div>
       </div>
 
@@ -118,9 +115,9 @@ export default async function PartnerDetailPage(props: PageProps<"/admin/parceir
                     {c.customerName}
                     <span className="block text-xs text-muted-foreground">{c.customerEmail}</span>
                   </TableCell>
-                  <TableCell>{formatCurrency(c.commissionAmount)}</TableCell>
-                  <TableCell>{formatCurrency(c.orderTotal)}</TableCell>
-                  <TableCell className="text-muted-foreground">{formatDate(c.createdAt)}</TableCell>
+                  <TableCell>{formatMoney(c.commissionAmount)}</TableCell>
+                  <TableCell>{formatMoney(c.orderTotal)}</TableCell>
+                  <TableCell className="text-muted-foreground">{formatDateTime(c.createdAt)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -162,11 +159,11 @@ export default async function PartnerDetailPage(props: PageProps<"/admin/parceir
               {commissions.map((c) => (
                 <TableRow key={c.id}>
                   <TableCell className="font-medium">{c.period}</TableCell>
-                  <TableCell>{formatCurrency(c.totalSales)}</TableCell>
-                  <TableCell>{formatCurrency(c.totalCommission)}</TableCell>
+                  <TableCell>{formatMoney(c.totalSales)}</TableCell>
+                  <TableCell>{formatMoney(c.totalCommission)}</TableCell>
                   <TableCell>{c.status === "paid" ? "Pago" : "Pendente"}</TableCell>
                   <TableCell className="text-muted-foreground">
-                    {c.paidAt ? formatDate(c.paidAt) : "—"}
+                    {c.paidAt ? formatDateTime(c.paidAt) : "—"}
                   </TableCell>
                 </TableRow>
               ))}

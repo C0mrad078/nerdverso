@@ -13,6 +13,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { deleteCouponAction } from "@/lib/actions/admin-promotions";
+import { formatMoney } from "@/lib/format";
 import { CouponForm } from "./coupon-form";
 import type { Coupon } from "@/generated/prisma/client";
 
@@ -24,7 +25,7 @@ type CouponRow = Omit<Coupon, "discountValue" | "minOrderValue"> & {
 
 const DISCOUNT_LABELS: Record<string, (value: number) => string> = {
   PERCENTAGE: (v) => `${v}%`,
-  FIXED: (v) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }),
+  FIXED: (v) => formatMoney(v),
   FREE_SHIPPING: () => "Frete grátis",
 };
 

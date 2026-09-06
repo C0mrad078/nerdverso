@@ -13,6 +13,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { deletePartnerAction } from "@/lib/actions/admin-partners";
+import { formatMoney } from "@/lib/format";
 import { PartnerForm } from "./partner-form";
 import type { Partner } from "@/generated/prisma/client";
 
@@ -22,10 +23,6 @@ type PartnerRow = Omit<Partner, "commissionPercent"> & {
   conversionCount: number;
   totalCommission: number;
 };
-
-function formatCurrency(value: number) {
-  return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-}
 
 export function PartnerList({ partners }: { partners: PartnerRow[] }) {
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -69,7 +66,7 @@ export function PartnerList({ partners }: { partners: PartnerRow[] }) {
                   <TableCell className="tabular-nums">{partner.commissionPercent}%</TableCell>
                   <TableCell className="tabular-nums">{partner.clickCount}</TableCell>
                   <TableCell className="tabular-nums">
-                    {partner.conversionCount} · {formatCurrency(partner.totalCommission)}
+                    {partner.conversionCount} · {formatMoney(partner.totalCommission)}
                   </TableCell>
                   <TableCell>
                     <Badge variant={partner.status === "ACTIVE" ? "default" : "secondary"}>

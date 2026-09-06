@@ -3,6 +3,7 @@ import Link from "next/link";
 import { requirePermission } from "@/lib/auth/authorize";
 import { prisma } from "@/lib/db/client";
 import { getCouponReport } from "@/lib/data/admin-promotions";
+import { formatMoney } from "@/lib/format";
 import {
   Table,
   TableBody,
@@ -14,11 +15,7 @@ import {
 
 export const metadata = { title: "Relatório de cupom" };
 
-function formatCurrency(value: number) {
-  return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-}
-
-function formatDate(date: Date) {
+function formatDateTime(date: Date) {
   return new Date(date).toLocaleString("pt-BR");
 }
 
@@ -48,15 +45,15 @@ export default async function CouponReportPage(props: PageProps<"/admin/cupons/[
         </div>
         <div className="rounded-lg border border-border p-4">
           <p className="text-xs text-muted-foreground">Desconto total</p>
-          <p className="mt-1 font-display text-xl text-foreground">{formatCurrency(report.totalDiscount)}</p>
+          <p className="mt-1 font-display text-xl text-foreground">{formatMoney(report.totalDiscount)}</p>
         </div>
         <div className="rounded-lg border border-border p-4">
           <p className="text-xs text-muted-foreground">Receita gerada</p>
-          <p className="mt-1 font-display text-xl text-foreground">{formatCurrency(report.totalRevenue)}</p>
+          <p className="mt-1 font-display text-xl text-foreground">{formatMoney(report.totalRevenue)}</p>
         </div>
         <div className="rounded-lg border border-border p-4">
           <p className="text-xs text-muted-foreground">Ticket médio</p>
-          <p className="mt-1 font-display text-xl text-foreground">{formatCurrency(report.averageTicket)}</p>
+          <p className="mt-1 font-display text-xl text-foreground">{formatMoney(report.averageTicket)}</p>
         </div>
       </div>
 
@@ -86,9 +83,9 @@ export default async function CouponReportPage(props: PageProps<"/admin/cupons/[
                   {usage.customerName}
                   <span className="block text-xs text-muted-foreground">{usage.customerEmail}</span>
                 </TableCell>
-                <TableCell>{formatCurrency(usage.discountAmount)}</TableCell>
-                <TableCell>{formatCurrency(usage.orderTotal)}</TableCell>
-                <TableCell className="text-muted-foreground">{formatDate(usage.createdAt)}</TableCell>
+                <TableCell>{formatMoney(usage.discountAmount)}</TableCell>
+                <TableCell>{formatMoney(usage.orderTotal)}</TableCell>
+                <TableCell className="text-muted-foreground">{formatDateTime(usage.createdAt)}</TableCell>
               </TableRow>
             ))}
           </TableBody>
