@@ -1,16 +1,16 @@
 import { prisma } from "@/lib/db/client";
-import { getCartToken } from "@/lib/cart/session";
+import { getActiveCartWhere } from "@/lib/cart/resolve";
 
 function toNumber(value: unknown): number {
   return value === null || value === undefined ? 0 : Number(value);
 }
 
 export async function getCurrentCart() {
-  const token = await getCartToken();
-  if (!token) return null;
+  const where = await getActiveCartWhere();
+  if (!where) return null;
 
-  return prisma.cart.findUnique({
-    where: { sessionToken: token },
+  return prisma.cart.findFirst({
+    where,
     include: {
       coupon: true,
       items: {

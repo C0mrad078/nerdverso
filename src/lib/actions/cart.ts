@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db/client";
-import { ensureCartToken, getCartToken } from "@/lib/cart/session";
+import { getActiveCartWhere, getOrCreateCartForWrite } from "@/lib/cart/resolve";
 import { Status } from "@/generated/prisma/client";
 
 async function addVariantToCart(variantId: string, requestedQuantity: number) {
@@ -24,12 +24,7 @@ async function addVariantToCart(variantId: string, requestedQuantity: number) {
     : 0;
   if (available < 1) throw new Error("Produto sem estoque no momento.");
 
-  const token = await ensureCartToken();
-  const cart = await prisma.cart.upsert({
-    where: { sessionToken: token },
-    update: {},
-    create: { sessionToken: token },
-  });
+  const cart = await getOrCreateCartForWrite();
 
   const existingItem = await prisma.cartItem.findUnique({
     where: { cartId_variantId: { cartId: cart.id, variantId } },
@@ -69,13 +64,13 @@ export async function updateCartItemQuantity(formData: FormData) {
   const quantity = Math.floor(Number(formData.get("quantity") ?? 0));
   if (!itemId) return;
 
-  const token = await getCartToken();
-  if (!token) return;
+  const where = await getActiveCartWhere();
+  if (!where) return;
 
   // Scope the lookup to the caller's own cart so one visitor can't mutate
   // another visitor's cart item by guessing/reusing an itemId.
   const item = await prisma.cartItem.findFirst({
-    where: { id: itemId, cart: { sessionToken: token } },
+    where: { id: itemId, cart: where },
     include: { variant: { include: { inventory: true } } },
   });
   if (!item) return;
@@ -100,11 +95,11 @@ export async function removeCartItem(formData: FormData) {
   const itemId = String(formData.get("itemId") ?? "");
   if (!itemId) return;
 
-  const token = await getCartToken();
-  if (!token) return;
+  const where = await getActiveCartWhere();
+  if (!where) return;
 
   await prisma.cartItem.deleteMany({
-    where: { id: itemId, cart: { sessionToken: token } },
+    where: { id: itemId, cart: where },
   });
   revalidatePath("/carrinho");
   revalidatePath("/", "layout");
@@ -114,7 +109,6 @@ export async function applyCoupon(formData: FormData) {
   const code = String(formData.get("code") ?? "").trim().toUpperCase();
   if (!code) return { error: "Informe um cupom." };
 
-  const token = await ensureCartToken();
   const coupon = await prisma.coupon.findUnique({ where: { code } });
   const now = new Date();
 
@@ -127,12 +121,8 @@ export async function applyCoupon(formData: FormData) {
     return { error: "Cupom inválido ou expirado." };
   }
 
-  const cart = await prisma.cart.upsert({
-    where: { sessionToken: token },
-    update: { couponId: coupon.id },
-    create: { sessionToken: token, couponId: coupon.id },
-  });
-  void cart;
+  const cart = await getOrCreateCartForWrite();
+  await prisma.cart.update({ where: { id: cart.id }, data: { couponId: coupon.id } });
 
   revalidatePath("/carrinho");
   return { error: null };

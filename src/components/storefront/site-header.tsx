@@ -11,6 +11,12 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
@@ -20,12 +26,15 @@ import {
 } from "@/components/ui/navigation-menu";
 import { getCategories, getNiches } from "@/lib/data/storefront";
 import { getCartItemCount } from "@/lib/data/cart";
+import { auth } from "@/lib/auth/config";
+import { logoutAction } from "@/lib/actions/auth";
 
 export async function SiteHeader() {
-  const [categories, niches, cartCount] = await Promise.all([
+  const [categories, niches, cartCount, session] = await Promise.all([
     getCategories(),
     getNiches(),
     getCartItemCount(),
+    auth(),
   ]);
 
   return (
@@ -98,11 +107,36 @@ export async function SiteHeader() {
               <Search className="size-5" aria-hidden="true" />
             </Link>
           </Button>
-          <Button variant="ghost" size="icon" aria-label="Minha conta" asChild>
-            <Link href="/conta">
-              <User className="size-5" aria-hidden="true" />
-            </Link>
-          </Button>
+          {session?.user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" aria-label="Minha conta">
+                  <User className="size-5" aria-hidden="true" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem asChild>
+                  <Link href="/conta">Minha conta</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/conta/pedidos">Meus pedidos</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <form action={logoutAction} className="w-full">
+                    <button type="submit" className="w-full text-left">
+                      Sair
+                    </button>
+                  </form>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button variant="ghost" size="icon" aria-label="Entrar" asChild>
+              <Link href="/login">
+                <User className="size-5" aria-hidden="true" />
+              </Link>
+            </Button>
+          )}
           <Button
             variant="ghost"
             size="icon"
