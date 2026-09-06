@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import "../globals.css";
 import { fontVariables } from "@/lib/fonts";
 import { AnnouncementBar } from "@/components/storefront/announcement-bar";
 import { SiteHeader } from "@/components/storefront/site-header";
 import { SiteFooter } from "@/components/storefront/site-footer";
+import { ReferralTracker } from "@/components/storefront/referral-tracker";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
@@ -34,6 +36,9 @@ export default function StoreLayout({ children }: LayoutProps<"/">) {
         >
           Pular para o conteúdo
         </a>
+        <Suspense fallback={null}>
+          <ReferralTracker />
+        </Suspense>
         <AnnouncementBar />
         <SiteHeader />
         <main id="conteudo" className="flex-1">

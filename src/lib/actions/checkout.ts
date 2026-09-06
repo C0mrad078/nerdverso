@@ -7,6 +7,7 @@ import { prisma } from "@/lib/db/client";
 import { auth } from "@/lib/auth/config";
 import { getCurrentCart } from "@/lib/data/cart";
 import { paymentProvider } from "@/lib/payments/provider";
+import { getAttributedPartner } from "@/lib/partners/attribution";
 import { InventoryMovementType, OrderStatus, PaymentMethod } from "@/generated/prisma/client";
 
 function toNumber(value: unknown): number {
@@ -89,6 +90,7 @@ export async function placeOrderAction(formData: FormData): Promise<PlaceOrderRe
   }
 
   const total = Math.max(subtotal - discountTotal, 0) + shippingTotal;
+  const attributedPartner = await getAttributedPartner();
   const orderNumber = generateOrderNumber();
   const intent = await paymentProvider.createIntent({
     method: paymentMethod as PaymentMethod,
@@ -107,6 +109,7 @@ export async function placeOrderAction(formData: FormData): Promise<PlaceOrderRe
         shippingTotal,
         total,
         couponId: couponValid ? cart.couponId : null,
+        partnerId: attributedPartner?.id ?? null,
         shippingAddressId: address.id,
         billingAddressId: address.id,
         shippingMethod: shippingRate.name,
@@ -164,12 +167,25 @@ export async function placeOrderAction(formData: FormData): Promise<PlaceOrderRe
     });
 
     if (couponValid && cart.couponId) {
+      const customer = await tx.customer.findUniqueOrThrow({ where: { userId } });
       await tx.couponUsage.create({
         data: {
           couponId: cart.couponId,
-          customerId: (await tx.customer.findUniqueOrThrow({ where: { userId } })).id,
+          customerId: customer.id,
           orderId: order.id,
           discountAmount: discountTotal,
+        },
+      });
+    }
+
+    if (attributedPartner) {
+      const customer = await tx.customer.findUniqueOrThrow({ where: { userId } });
+      await tx.partnerConversion.create({
+        data: {
+          partnerId: attributedPartner.id,
+          orderId: order.id,
+          customerId: customer.id,
+          commissionAmount: total * (toNumber(attributedPartner.commissionPercent) / 100),
         },
       });
     }
