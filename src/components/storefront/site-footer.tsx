@@ -47,22 +47,14 @@ export async function SiteFooter() {
     <footer className="border-t border-border bg-background">
       <div className="mx-auto grid w-full max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.2fr_repeat(4,1fr)] lg:px-8">
         <div className="flex flex-col gap-4">
-          <Link href="/" className="flex items-center gap-2" aria-label="Nerdverso">
+          <Link href="/" className="flex items-center" aria-label="Nerdverso">
             <Image
-              src="/brand/logo/logo-white.png"
+              src="/brand/logo/wordmark-orange.png"
               alt="Nerdverso"
-              width={32}
-              height={32}
-              className="hidden dark:block"
+              width={160}
+              height={36}
+              className="h-8 w-auto"
             />
-            <Image
-              src="/brand/logo/logo-black.png"
-              alt="Nerdverso"
-              width={32}
-              height={32}
-              className="dark:hidden"
-            />
-            <span className="font-display text-lg text-foreground">nerdverso</span>
           </Link>
           <p className="max-w-xs text-sm text-muted-foreground">
             Loja independente de camisetas, canecas e produtos geek. Games, animes, K-pop,

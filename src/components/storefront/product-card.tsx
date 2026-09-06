@@ -12,7 +12,7 @@ export function ProductCard({ product }: { product: ProductCardData }) {
   return (
     <Link
       href={`/produto/${product.slug}`}
-      className="group flex flex-col focus-visible:outline-none"
+      className="group flex flex-col rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
       <div className="relative aspect-[4/5] overflow-hidden rounded-lg bg-surface">
         {product.image ? (
@@ -42,22 +42,22 @@ export function ProductCard({ product }: { product: ProductCardData }) {
           )}
         </div>
 
-        <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/10 transition group-hover:ring-white/20" />
+        <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/10 transition-shadow group-hover:ring-white/20" />
       </div>
 
       <div className="mt-3 flex flex-col gap-1">
         {product.collection && (
           <span className="text-xs font-medium text-primary">{product.collection}</span>
         )}
-        <h3 className="font-display text-base leading-snug text-foreground">
+        <h3 className="font-display line-clamp-2 text-base leading-snug text-foreground">
           {product.name}
         </h3>
         <div className="flex items-baseline gap-2">
-          <span className="font-medium text-foreground">
+          <span className="font-medium tabular-nums text-foreground">
             {formatMoney(product.price)}
           </span>
           {product.compareAtPrice && (
-            <span className="text-sm text-muted-foreground line-through">
+            <span className="text-sm tabular-nums text-muted-foreground line-through">
               {formatMoney(product.compareAtPrice)}
             </span>
           )}

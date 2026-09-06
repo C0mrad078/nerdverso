@@ -1,4 +1,4 @@
-import { Inter, Fraunces, Geist_Mono } from "next/font/google";
+import { Inter, Anton, Geist_Mono } from "next/font/google";
 
 export const inter = Inter({
   variable: "--font-sans",
@@ -6,10 +6,13 @@ export const inter = Inter({
   display: "swap",
 });
 
-export const fraunces = Fraunces({
+// Bold, condensed display face chosen to sit next to the brand's hand-drawn
+// graffiti wordmark without clashing with it (an elegant serif read as
+// off-brand against that mark — see docs/design-system.md).
+export const anton = Anton({
   variable: "--font-display",
   subsets: ["latin"],
-  axes: ["opsz", "SOFT", "WONK"],
+  weight: "400",
   display: "swap",
 });
 
@@ -19,4 +22,4 @@ export const geistMono = Geist_Mono({
   display: "swap",
 });
 
-export const fontVariables = `${inter.variable} ${fraunces.variable} ${geistMono.variable}`;
+export const fontVariables = `${inter.variable} ${anton.variable} ${geistMono.variable}`;

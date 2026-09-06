@@ -1,9 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 700">
-  <rect width="600" height="700" fill="#F6F1EE"/>
-  <path d="M200 220 H380 V520 Q380 560 340 560 H240 Q200 560 200 520 Z"
-        fill="#FF1C4C" stroke="#141318" stroke-width="6"/>
-  <path d="M380 270 Q460 270 460 350 Q460 430 380 430" fill="none" stroke="#141318" stroke-width="14" stroke-linecap="round"/>
-  <circle cx="290" cy="380" r="62" fill="#141318"/>
-  <text x="290" y="400" font-family="Georgia, 'Times New Roman', serif" font-size="40" font-weight="700"
-        text-anchor="middle" fill="#F6F1EE">KP</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 750">
+  <defs><pattern id="wm" width="700" height="130" patternUnits="userSpaceOnUse"
+      patternTransform="rotate(-12) translate(-60,-40)">
+      <text x="-40" y="-130" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="64" font-weight="900" fill="#000000" opacity="0.1" letter-spacing="2">nerdverso &#8226; nerdverso &#8226; nerdverso &#8226; nerdverso</text><text x="-40" y="0" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="64" font-weight="900" fill="#000000" opacity="0.1" letter-spacing="2">nerdverso &#8226; nerdverso &#8226; nerdverso &#8226; nerdverso</text><text x="-40" y="130" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="64" font-weight="900" fill="#000000" opacity="0.1" letter-spacing="2">nerdverso &#8226; nerdverso &#8226; nerdverso &#8226; nerdverso</text><text x="-40" y="260" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="64" font-weight="900" fill="#000000" opacity="0.1" letter-spacing="2">nerdverso &#8226; nerdverso &#8226; nerdverso &#8226; nerdverso</text><text x="-40" y="390" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="64" font-weight="900" fill="#000000" opacity="0.1" letter-spacing="2">nerdverso &#8226; nerdverso &#8226; nerdverso &#8226; nerdverso</text>
+    </pattern></defs>
+  <rect width="600" height="750" fill="#F05E2B"/>
+  <rect width="600" height="750" fill="url(#wm)"/>
+  <rect x="0" y="650" width="600" height="100" fill="#000000"/>
+  <text x="30" y="716" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="42" font-weight="900" fill="#000000">K-drama Nights</text>
+  <text x="570" y="716" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="42" font-weight="900" fill="#000000" text-anchor="end">NV</text>
 </svg>

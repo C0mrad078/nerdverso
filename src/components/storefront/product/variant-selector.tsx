@@ -87,7 +87,8 @@ export function VariantSelector({
                   key={option.valueId}
                   type="button"
                   onClick={() => handleSelect(attribute.id, option.valueId)}
-                  className={`rounded-full border px-4 py-2 text-sm transition-colors ${
+                  aria-pressed={isSelected}
+                  className={`rounded-full border px-4 py-2 text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
                     isSelected
                       ? "border-primary bg-primary text-primary-foreground"
                       : "border-border text-foreground hover:border-foreground/40"
@@ -106,21 +107,23 @@ export function VariantSelector({
           <button
             type="button"
             aria-label="Diminuir quantidade"
-            className="flex size-9 items-center justify-center text-foreground disabled:opacity-40"
+            className="flex size-9 items-center justify-center rounded-full text-foreground outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-40"
             disabled={quantity <= 1}
             onClick={() => setQuantity((q) => Math.max(1, q - 1))}
           >
-            <Minus className="size-4" />
+            <Minus className="size-4" aria-hidden="true" />
           </button>
-          <span className="w-8 text-center text-sm tabular-nums">{quantity}</span>
+          <span className="w-8 text-center text-sm tabular-nums" aria-live="polite">
+            {quantity}
+          </span>
           <button
             type="button"
             aria-label="Aumentar quantidade"
-            className="flex size-9 items-center justify-center text-foreground disabled:opacity-40"
+            className="flex size-9 items-center justify-center rounded-full text-foreground outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-40"
             disabled={!canBuy || quantity >= available}
             onClick={() => setQuantity((q) => Math.min(available || 1, q + 1))}
           >
-            <Plus className="size-4" />
+            <Plus className="size-4" aria-hidden="true" />
           </button>
         </div>
 
@@ -158,7 +161,11 @@ export function VariantSelector({
         </form>
       </div>
 
-      {feedback && <p className="text-sm text-muted-foreground">{feedback}</p>}
+      {feedback && (
+        <p role="status" aria-live="polite" className="text-sm text-muted-foreground">
+          {feedback}
+        </p>
+      )}
     </div>
   );
 }

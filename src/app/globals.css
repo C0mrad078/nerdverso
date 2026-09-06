@@ -6,8 +6,8 @@
 
 /*
   Nerdverso design tokens.
-  Source of truth: Canva brand kit "nerdverso" (logo mark: planet/ringed globe
-  wordmark, colors sampled from official brand assets in public/brand/logo).
+  Brand palette (confirmed by the client against the Canva brand kit):
+  black #000000, white #FFFFFF, accent orange #F05E2B.
   Two surfaces share one brand: the storefront defaults to the dark ".dark"
   palette (editorial, emotional), the admin uses the light ":root" palette
   (functional, high-clarity). See docs/design-system.md.
@@ -67,87 +67,89 @@
 
 /* Light palette — used by the admin surface (clear, functional, efficient). */
 :root {
-  --background: oklch(0.985 0.002 90);
-  --foreground: oklch(0.19 0.015 30);
+  color-scheme: light;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.14 0 0);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.19 0.015 30);
+  --card-foreground: oklch(0.14 0 0);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.19 0.015 30);
-  --surface: oklch(0.965 0.004 60);
-  --surface-foreground: oklch(0.19 0.015 30);
-  --primary: oklch(0.64 0.247 19);
-  --primary-foreground: oklch(0.99 0.01 20);
-  --secondary: oklch(0.94 0.006 50);
-  --secondary-foreground: oklch(0.24 0.02 30);
-  --muted: oklch(0.94 0.006 50);
-  --muted-foreground: oklch(0.5 0.02 30);
-  --accent: oklch(0.9 0.03 30);
-  --accent-foreground: oklch(0.24 0.08 20);
-  --destructive: oklch(0.577 0.19 40);
-  --destructive-foreground: oklch(0.99 0.01 20);
+  --popover-foreground: oklch(0.14 0 0);
+  --surface: oklch(0.97 0 0);
+  --surface-foreground: oklch(0.14 0 0);
+  --primary: oklch(0.664 0.151 38.3);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.95 0 0);
+  --secondary-foreground: oklch(0.2 0 0);
+  --muted: oklch(0.95 0 0);
+  --muted-foreground: oklch(0.48 0 0);
+  --accent: oklch(0.91 0.04 38.3);
+  --accent-foreground: oklch(0.25 0.06 38.3);
+  --destructive: oklch(0.577 0.22 25);
+  --destructive-foreground: oklch(0.99 0 0);
   --success: oklch(0.72 0.17 150);
   --success-foreground: oklch(0.99 0.01 150);
   --warning: oklch(0.8 0.15 80);
   --warning-foreground: oklch(0.24 0.05 80);
-  --border: oklch(0.9 0.006 50);
-  --input: oklch(0.9 0.006 50);
-  --ring: oklch(0.64 0.247 19);
-  --chart-1: oklch(0.64 0.247 19);
-  --chart-2: oklch(0.6 0.1 30);
-  --chart-3: oklch(0.5 0.02 30);
+  --border: oklch(0.9 0 0);
+  --input: oklch(0.9 0 0);
+  --ring: oklch(0.664 0.151 38.3);
+  --chart-1: oklch(0.664 0.151 38.3);
+  --chart-2: oklch(0.6 0.02 38.3);
+  --chart-3: oklch(0.48 0 0);
   --chart-4: oklch(0.7 0.05 60);
-  --chart-5: oklch(0.4 0.02 30);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.99 0.002 90);
-  --sidebar-foreground: oklch(0.19 0.015 30);
-  --sidebar-primary: oklch(0.64 0.247 19);
-  --sidebar-primary-foreground: oklch(0.99 0.01 20);
-  --sidebar-accent: oklch(0.94 0.006 50);
-  --sidebar-accent-foreground: oklch(0.24 0.02 30);
-  --sidebar-border: oklch(0.9 0.006 50);
-  --sidebar-ring: oklch(0.64 0.247 19);
+  --chart-5: oklch(0.3 0 0);
+  --radius: 0.5rem;
+  --sidebar: oklch(0.99 0 0);
+  --sidebar-foreground: oklch(0.14 0 0);
+  --sidebar-primary: oklch(0.664 0.151 38.3);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: oklch(0.95 0 0);
+  --sidebar-accent-foreground: oklch(0.2 0 0);
+  --sidebar-border: oklch(0.9 0 0);
+  --sidebar-ring: oklch(0.664 0.151 38.3);
 }
 
 /* Dark palette — the storefront's default surface (emotional, editorial). */
 .dark {
-  --background: oklch(0.16 0.006 30);
-  --foreground: oklch(0.96 0.006 60);
-  --card: oklch(0.2 0.008 30);
-  --card-foreground: oklch(0.96 0.006 60);
-  --popover: oklch(0.19 0.008 30);
-  --popover-foreground: oklch(0.96 0.006 60);
-  --surface: oklch(0.22 0.01 30);
-  --surface-foreground: oklch(0.96 0.006 60);
-  --primary: oklch(0.64 0.247 19);
-  --primary-foreground: oklch(0.99 0.01 20);
-  --secondary: oklch(0.6 0.045 40);
-  --secondary-foreground: oklch(0.98 0.006 60);
-  --muted: oklch(0.27 0.01 30);
-  --muted-foreground: oklch(0.68 0.015 40);
-  --accent: oklch(0.3 0.03 30);
-  --accent-foreground: oklch(0.96 0.006 60);
-  --destructive: oklch(0.65 0.19 40);
-  --destructive-foreground: oklch(0.99 0.01 20);
+  color-scheme: dark;
+  --background: oklch(0 0 0);
+  --foreground: oklch(0.98 0 0);
+  --card: oklch(0.09 0 0);
+  --card-foreground: oklch(0.98 0 0);
+  --popover: oklch(0.08 0 0);
+  --popover-foreground: oklch(0.98 0 0);
+  --surface: oklch(0.12 0 0);
+  --surface-foreground: oklch(0.98 0 0);
+  --primary: oklch(0.664 0.151 38.3);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.2 0 0);
+  --secondary-foreground: oklch(0.98 0 0);
+  --muted: oklch(0.16 0 0);
+  --muted-foreground: oklch(0.65 0 0);
+  --accent: oklch(0.22 0.03 38.3);
+  --accent-foreground: oklch(0.98 0 0);
+  --destructive: oklch(0.65 0.2 25);
+  --destructive-foreground: oklch(0.99 0 0);
   --success: oklch(0.72 0.17 150);
   --success-foreground: oklch(0.16 0.02 150);
   --warning: oklch(0.8 0.15 80);
   --warning-foreground: oklch(0.2 0.03 80);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 14%);
-  --ring: oklch(0.64 0.247 19);
-  --chart-1: oklch(0.64 0.247 19);
-  --chart-2: oklch(0.6 0.045 40);
-  --chart-3: oklch(0.68 0.015 40);
-  --chart-4: oklch(0.5 0.02 30);
-  --chart-5: oklch(0.3 0.03 30);
-  --sidebar: oklch(0.18 0.008 30);
-  --sidebar-foreground: oklch(0.96 0.006 60);
-  --sidebar-primary: oklch(0.64 0.247 19);
-  --sidebar-primary-foreground: oklch(0.99 0.01 20);
-  --sidebar-accent: oklch(0.27 0.01 30);
-  --sidebar-accent-foreground: oklch(0.96 0.006 60);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.64 0.247 19);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: oklch(0.664 0.151 38.3);
+  --chart-1: oklch(0.664 0.151 38.3);
+  --chart-2: oklch(0.6 0.02 38.3);
+  --chart-3: oklch(0.65 0 0);
+  --chart-4: oklch(0.4 0 0);
+  --chart-5: oklch(0.22 0.03 38.3);
+  --sidebar: oklch(0.06 0 0);
+  --sidebar-foreground: oklch(0.98 0 0);
+  --sidebar-primary: oklch(0.664 0.151 38.3);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: oklch(0.16 0 0);
+  --sidebar-accent-foreground: oklch(0.98 0 0);
+  --sidebar-border: oklch(1 0 0 / 12%);
+  --sidebar-ring: oklch(0.664 0.151 38.3);
 }
 
 @layer base {
@@ -159,5 +161,10 @@
   }
   html {
     @apply font-sans;
+  }
+  a,
+  button,
+  [role="button"] {
+    touch-action: manipulation;
   }
 }

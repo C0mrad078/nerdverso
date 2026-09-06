@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db/client";
-import { ensureCartToken } from "@/lib/cart/session";
+import { ensureCartToken, getCartToken } from "@/lib/cart/session";
 import { Status } from "@/generated/prisma/client";
 
 async function addVariantToCart(variantId: string, requestedQuantity: number) {
@@ -69,19 +69,25 @@ export async function updateCartItemQuantity(formData: FormData) {
   const quantity = Math.floor(Number(formData.get("quantity") ?? 0));
   if (!itemId) return;
 
+  const token = await getCartToken();
+  if (!token) return;
+
+  // Scope the lookup to the caller's own cart so one visitor can't mutate
+  // another visitor's cart item by guessing/reusing an itemId.
+  const item = await prisma.cartItem.findFirst({
+    where: { id: itemId, cart: { sessionToken: token } },
+    include: { variant: { include: { inventory: true } } },
+  });
+  if (!item) return;
+
   if (quantity <= 0) {
-    await prisma.cartItem.delete({ where: { id: itemId } }).catch(() => {});
+    await prisma.cartItem.delete({ where: { id: item.id } });
   } else {
-    const item = await prisma.cartItem.findUnique({
-      where: { id: itemId },
-      include: { variant: { include: { inventory: true } } },
-    });
-    if (!item) return;
     const available = item.variant.inventory
       ? Math.max(item.variant.inventory.quantity - item.variant.inventory.reserved, 0)
       : 0;
     await prisma.cartItem.update({
-      where: { id: itemId },
+      where: { id: item.id },
       data: { quantity: Math.min(quantity, Math.max(available, 1)) },
     });
   }
@@ -93,7 +99,13 @@ export async function updateCartItemQuantity(formData: FormData) {
 export async function removeCartItem(formData: FormData) {
   const itemId = String(formData.get("itemId") ?? "");
   if (!itemId) return;
-  await prisma.cartItem.delete({ where: { id: itemId } }).catch(() => {});
+
+  const token = await getCartToken();
+  if (!token) return;
+
+  await prisma.cartItem.deleteMany({
+    where: { id: itemId, cart: { sessionToken: token } },
+  });
   revalidatePath("/carrinho");
   revalidatePath("/", "layout");
 }

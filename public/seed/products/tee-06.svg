@@ -1,8 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 700">
-  <rect width="600" height="700" fill="#F6F1EE"/>
-  <path d="M180 90 L245 60 Q300 100 355 60 L420 90 L500 165 L450 220 L420 195 L420 620 Q420 640 400 640 L200 640 Q180 640 180 620 L180 195 L150 220 L100 165 Z"
-        fill="#141318" stroke="#141318" stroke-width="6" stroke-linejoin="round"/>
-  <circle cx="300" cy="330" r="70" fill="#FF1C4C"/>
-  <text x="300" y="352" font-family="Georgia, 'Times New Roman', serif" font-size="46" font-weight="700"
-        text-anchor="middle" fill="#F6F1EE">PC</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 750">
+  <defs><pattern id="wm" width="700" height="130" patternUnits="userSpaceOnUse"
+      patternTransform="rotate(-12) translate(-60,-40)">
+      <text x="-40" y="-130" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="64" font-weight="900" fill="#000000" opacity="0.06" letter-spacing="2">nerdverso &#8226; nerdverso &#8226; nerdverso &#8226; nerdverso</text><text x="-40" y="0" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="64" font-weight="900" fill="#000000" opacity="0.06" letter-spacing="2">nerdverso &#8226; nerdverso &#8226; nerdverso &#8226; nerdverso</text><text x="-40" y="130" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="64" font-weight="900" fill="#000000" opacity="0.06" letter-spacing="2">nerdverso &#8226; nerdverso &#8226; nerdverso &#8226; nerdverso</text><text x="-40" y="260" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="64" font-weight="900" fill="#000000" opacity="0.06" letter-spacing="2">nerdverso &#8226; nerdverso &#8226; nerdverso &#8226; nerdverso</text><text x="-40" y="390" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="64" font-weight="900" fill="#000000" opacity="0.06" letter-spacing="2">nerdverso &#8226; nerdverso &#8226; nerdverso &#8226; nerdverso</text>
+    </pattern></defs>
+  <rect width="600" height="750" fill="#FFFFFF"/>
+  <rect width="600" height="750" fill="url(#wm)"/>
+  <rect x="0" y="650" width="600" height="100" fill="#F05E2B"/>
+  <text x="30" y="716" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="42" font-weight="900" fill="#000000">Sakura Punch</text>
+  <text x="570" y="716" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="42" font-weight="900" fill="#000000" text-anchor="end">NV</text>
 </svg>

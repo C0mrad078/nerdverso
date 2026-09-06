@@ -28,34 +28,34 @@ export function CartItemRow({ item }: { item: CartViewItem }) {
     <div className="flex gap-4 py-5">
       <Link
         href={`/produto/${item.productSlug}`}
-        className="relative aspect-[4/5] w-20 shrink-0 overflow-hidden rounded-md bg-surface sm:w-24"
+        className="relative aspect-[4/5] w-20 shrink-0 overflow-hidden rounded-md bg-surface outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:w-24"
       >
         {item.image && (
           <Image src={item.image} alt={item.productName} fill className="object-cover" />
         )}
       </Link>
 
-      <div className="flex flex-1 flex-col justify-between">
+      <div className="flex min-w-0 flex-1 flex-col justify-between">
         <div className="flex items-start justify-between gap-4">
-          <div>
+          <div className="min-w-0">
             <Link
               href={`/produto/${item.productSlug}`}
-              className="font-display text-base text-foreground hover:text-primary"
+              className="font-display block truncate text-base text-foreground outline-none hover:text-primary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               {item.productName}
             </Link>
             {item.variantLabel && (
-              <p className="text-sm text-muted-foreground">{item.variantLabel}</p>
+              <p className="truncate text-sm text-muted-foreground">{item.variantLabel}</p>
             )}
           </div>
           <button
             type="button"
             onClick={remove}
             aria-label="Remover item"
-            className="text-muted-foreground hover:text-foreground"
+            className="shrink-0 rounded-full p-1 text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-40"
             disabled={pending}
           >
-            <X className="size-4" />
+            <X className="size-4" aria-hidden="true" />
           </button>
         </div>
 
@@ -64,24 +64,28 @@ export function CartItemRow({ item }: { item: CartViewItem }) {
             <button
               type="button"
               aria-label="Diminuir quantidade"
-              className="flex size-8 items-center justify-center disabled:opacity-40"
+              className="flex size-8 items-center justify-center rounded-full outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-40"
               disabled={pending || item.quantity <= 1}
               onClick={() => changeQuantity(item.quantity - 1)}
             >
-              <Minus className="size-3.5" />
+              <Minus className="size-3.5" aria-hidden="true" />
             </button>
-            <span className="w-7 text-center text-sm tabular-nums">{item.quantity}</span>
+            <span className="w-7 text-center text-sm tabular-nums" aria-live="polite">
+              {item.quantity}
+            </span>
             <button
               type="button"
               aria-label="Aumentar quantidade"
-              className="flex size-8 items-center justify-center disabled:opacity-40"
+              className="flex size-8 items-center justify-center rounded-full outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-40"
               disabled={pending || item.quantity >= item.available}
               onClick={() => changeQuantity(item.quantity + 1)}
             >
-              <Plus className="size-3.5" />
+              <Plus className="size-3.5" aria-hidden="true" />
             </button>
           </div>
-          <span className="font-medium text-foreground">{formatMoney(item.lineTotal)}</span>
+          <span className="shrink-0 font-medium tabular-nums text-foreground">
+            {formatMoney(item.lineTotal)}
+          </span>
         </div>
       </div>
     </div>

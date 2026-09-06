@@ -7,7 +7,7 @@ export function NicheStrip({ niches }: { niches: NicheData[] }) {
 
   return (
     <section className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <h2 className="font-display text-2xl text-foreground sm:text-3xl">
+      <h2 className="font-display uppercase tracking-tight text-2xl text-foreground sm:text-3xl">
         Explore por universo
       </h2>
       <div className="mt-6 flex gap-4 overflow-x-auto pb-2 [scrollbar-width:none] sm:grid sm:grid-cols-4 sm:gap-5 sm:overflow-visible lg:grid-cols-7">

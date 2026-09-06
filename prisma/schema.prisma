@@ -855,6 +855,12 @@ model PartnerCommission {
 // Store settings
 // ---------------------------------------------------------------------------
 
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}
+
 model StoreSetting {
   id                 String   @id @default("singleton")
   storeName          String   @default("Nerdverso")
@@ -864,6 +870,7 @@ model StoreSetting {
   instagram          String?
   tiktok             String?
   addressLine        String?
+  freeShippingThreshold Decimal? @db.Decimal(10, 2)
   seoTitle           String?
   seoDescription     String?
   termsUrl           String?

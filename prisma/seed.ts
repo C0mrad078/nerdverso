@@ -624,20 +624,21 @@ async function seedCommerceExtras() {
     },
   });
 
+  const storeSetting = {
+    storeName: "Nerdverso",
+    email: "contato@nerdverso.dev",
+    whatsapp: "",
+    instagram: "https://instagram.com/",
+    tiktok: "https://tiktok.com/",
+    freeShippingThreshold: 199,
+    seoTitle: "Nerdverso — Cultura geek em camisetas e canecas",
+    seoDescription:
+      "Camisetas, canecas e produtos geek: games, animes, K-pop, bandas e cultura pop.",
+  };
   await prisma.storeSetting.upsert({
     where: { id: "singleton" },
-    update: {},
-    create: {
-      id: "singleton",
-      storeName: "Nerdverso",
-      email: "contato@nerdverso.dev",
-      whatsapp: "",
-      instagram: "https://instagram.com/",
-      tiktok: "https://tiktok.com/",
-      seoTitle: "Nerdverso — Cultura geek em camisetas e canecas",
-      seoDescription:
-        "Camisetas, canecas e produtos geek: games, animes, K-pop, bandas e cultura pop.",
-    },
+    update: storeSetting,
+    create: { id: "singleton", ...storeSetting },
   });
 }
 

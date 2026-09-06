@@ -18,8 +18,8 @@ export function HeroBanner({
       : "aspect-[4/5] sm:aspect-[21/9]";
   const titleClass =
     size === "large"
-      ? "font-display text-4xl leading-[1.05] text-white sm:text-5xl lg:text-6xl"
-      : "font-display text-3xl leading-[1.05] text-white sm:text-4xl";
+      ? "font-display uppercase tracking-tight text-balance leading-[0.95] text-white text-5xl sm:text-6xl lg:text-7xl"
+      : "font-display uppercase tracking-tight text-balance leading-[0.95] text-white text-4xl sm:text-5xl";
 
   return (
     <section className="relative mx-auto w-full max-w-[1920px] overflow-hidden">

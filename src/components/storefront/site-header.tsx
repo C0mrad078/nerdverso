@@ -33,26 +33,15 @@ export async function SiteHeader() {
       <div className="mx-auto flex h-16 w-full max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
         <MobileNav categories={categories} niches={niches} />
 
-        <Link href="/" className="flex shrink-0 items-center gap-2" aria-label="Nerdverso">
+        <Link href="/" className="flex shrink-0 items-center" aria-label="Nerdverso">
           <Image
-            src="/brand/logo/logo-white.png"
+            src="/brand/logo/wordmark-white.png"
             alt="Nerdverso"
-            width={36}
-            height={36}
-            className="hidden dark:block"
+            width={140}
+            height={32}
+            className="h-8 w-auto"
             priority
           />
-          <Image
-            src="/brand/logo/logo-black.png"
-            alt="Nerdverso"
-            width={36}
-            height={36}
-            className="dark:hidden"
-            priority
-          />
-          <span className="font-display hidden text-lg tracking-tight text-foreground sm:block">
-            nerdverso
-          </span>
         </Link>
 
         <NavigationMenu className="hidden lg:flex" viewport={false}>
@@ -106,19 +95,28 @@ export async function SiteHeader() {
         <div className="ml-auto flex items-center gap-1 sm:gap-2">
           <Button variant="ghost" size="icon" aria-label="Buscar" asChild>
             <Link href="/buscar">
-              <Search className="size-5" />
+              <Search className="size-5" aria-hidden="true" />
             </Link>
           </Button>
           <Button variant="ghost" size="icon" aria-label="Minha conta" asChild>
             <Link href="/conta">
-              <User className="size-5" />
+              <User className="size-5" aria-hidden="true" />
             </Link>
           </Button>
-          <Button variant="ghost" size="icon" aria-label="Carrinho" asChild className="relative">
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label={cartCount > 0 ? `Carrinho, ${cartCount} itens` : "Carrinho"}
+            asChild
+            className="relative"
+          >
             <Link href="/carrinho">
-              <ShoppingBag className="size-5" />
+              <ShoppingBag className="size-5" aria-hidden="true" />
               {cartCount > 0 && (
-                <span className="absolute right-0.5 top-0.5 flex size-4 items-center justify-center rounded-full bg-primary text-[10px] font-medium text-primary-foreground">
+                <span
+                  aria-hidden="true"
+                  className="absolute right-0.5 top-0.5 flex size-4 items-center justify-center rounded-full bg-primary text-[10px] font-medium tabular-nums text-primary-foreground"
+                >
                   {cartCount > 9 ? "9+" : cartCount}
                 </span>
               )}
@@ -141,12 +139,14 @@ function MobileNav({
     <Sheet>
       <SheetTrigger asChild>
         <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Abrir menu">
-          <Menu className="size-5" />
+          <Menu className="size-5" aria-hidden="true" />
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="w-[300px]">
+      <SheetContent side="left" className="w-[300px] overflow-y-auto overscroll-contain">
         <SheetHeader>
-          <SheetTitle className="font-display text-left">nerdverso</SheetTitle>
+          <SheetTitle className="text-left">
+            <Image src="/brand/logo/wordmark-white.png" alt="Nerdverso" width={140} height={32} className="h-7 w-auto" />
+          </SheetTitle>
         </SheetHeader>
         <nav className="flex flex-col gap-1 px-4">
           {categories.map((category) => (

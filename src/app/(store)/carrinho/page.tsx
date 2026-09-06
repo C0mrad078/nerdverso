@@ -3,15 +3,15 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { formatMoney } from "@/lib/format";
 import { getCartView } from "@/lib/data/cart";
+import { getStoreSetting } from "@/lib/data/storefront";
+import { estimateShipping } from "@/lib/shipping";
 import { CartItemRow } from "./cart-item-row";
 import { CouponForm } from "./coupon-form";
 
 export const metadata = { title: "Carrinho" };
 
-const SHIPPING_ESTIMATE = 19.9;
-
 export default async function CartPage() {
-  const cart = await getCartView();
+  const [cart, settings] = await Promise.all([getCartView(), getStoreSetting()]);
 
   if (cart.items.length === 0) {
     return (
@@ -27,8 +27,13 @@ export default async function CartPage() {
     );
   }
 
-  const shipping = SHIPPING_ESTIMATE;
+  const freeShippingThreshold = settings?.freeShippingThreshold
+    ? Number(settings.freeShippingThreshold)
+    : null;
+  const shipping = estimateShipping(cart.subtotal, freeShippingThreshold);
   const total = Math.max(cart.subtotal - cart.discountTotal, 0) + shipping;
+  const missingForFreeShipping =
+    freeShippingThreshold !== null ? Math.max(freeShippingThreshold - cart.subtotal, 0) : 0;
 
   return (
     <div className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
@@ -59,12 +64,14 @@ export default async function CartPage() {
             )}
             <div className="flex justify-between">
               <dt className="text-muted-foreground">Frete estimado</dt>
-              <dd className="text-foreground">{formatMoney(shipping)}</dd>
+              <dd className="tabular-nums text-foreground">
+                {shipping === 0 ? "Grátis" : formatMoney(shipping)}
+              </dd>
             </div>
             <Separator className="my-1" />
             <div className="flex justify-between text-base font-medium">
               <dt className="text-foreground">Total</dt>
-              <dd className="text-foreground">{formatMoney(total)}</dd>
+              <dd className="tabular-nums text-foreground">{formatMoney(total)}</dd>
             </div>
           </dl>
 
@@ -72,7 +79,9 @@ export default async function CartPage() {
             <Link href="/checkout">Finalizar compra</Link>
           </Button>
           <p className="text-center text-xs text-muted-foreground">
-            Frete calculado por CEP na próxima etapa.
+            {missingForFreeShipping > 0
+              ? `Faltam ${formatMoney(missingForFreeShipping)} para frete grátis.`
+              : "Frete calculado por CEP na próxima etapa."}
           </p>
         </div>
       </div>

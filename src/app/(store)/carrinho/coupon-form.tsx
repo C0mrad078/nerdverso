@@ -21,13 +21,19 @@ export function CouponForm({ appliedCode }: { appliedCode: string | null }) {
     >
       <Input
         name="code"
+        aria-label="Cupom de desconto"
         placeholder="Cupom de desconto"
         defaultValue={appliedCode ?? ""}
+        autoComplete="off"
+        spellCheck={false}
         className="bg-background"
       />
       <Button type="submit" variant="outline" disabled={pending}>
         Aplicar
       </Button>
+      <p className="sr-only" role="status" aria-live="polite">
+        {error ?? ""}
+      </p>
       {error && <p className="text-sm text-destructive">{error}</p>}
     </form>
   );

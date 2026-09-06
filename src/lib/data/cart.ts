@@ -76,8 +76,15 @@ export async function getCartView(): Promise<CartView> {
 
   const subtotal = items.reduce((sum, item) => sum + item.lineTotal, 0);
 
+  const now = new Date();
+  const couponIsValid =
+    !!cart.coupon &&
+    cart.coupon.active &&
+    (!cart.coupon.startsAt || cart.coupon.startsAt <= now) &&
+    (!cart.coupon.endsAt || cart.coupon.endsAt >= now);
+
   let discountTotal = 0;
-  if (cart.coupon && cart.coupon.active) {
+  if (couponIsValid && cart.coupon) {
     if (cart.coupon.discountType === "PERCENTAGE") {
       discountTotal = subtotal * (toNumber(cart.coupon.discountValue) / 100);
     } else if (cart.coupon.discountType === "FIXED") {
@@ -85,7 +92,12 @@ export async function getCartView(): Promise<CartView> {
     }
   }
 
-  return { items, subtotal, discountTotal, couponCode: cart.coupon?.code ?? null };
+  return {
+    items,
+    subtotal,
+    discountTotal,
+    couponCode: couponIsValid ? (cart.coupon?.code ?? null) : null,
+  };
 }
 
 export async function getCartItemCount(): Promise<number> {

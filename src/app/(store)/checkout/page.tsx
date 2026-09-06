@@ -2,15 +2,20 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { formatMoney } from "@/lib/format";
 import { getCartView } from "@/lib/data/cart";
+import { getStoreSetting } from "@/lib/data/storefront";
+import { estimateShipping } from "@/lib/shipping";
 import { redirect } from "next/navigation";
 
 export const metadata = { title: "Checkout" };
 
 export default async function CheckoutPage() {
-  const cart = await getCartView();
+  const [cart, settings] = await Promise.all([getCartView(), getStoreSetting()]);
   if (cart.items.length === 0) redirect("/carrinho");
 
-  const shipping = 19.9;
+  const freeShippingThreshold = settings?.freeShippingThreshold
+    ? Number(settings.freeShippingThreshold)
+    : null;
+  const shipping = estimateShipping(cart.subtotal, freeShippingThreshold);
   const total = Math.max(cart.subtotal - cart.discountTotal, 0) + shipping;
 
   return (
@@ -38,11 +43,13 @@ export default async function CheckoutPage() {
         )}
         <div className="flex justify-between">
           <dt className="text-muted-foreground">Frete estimado</dt>
-          <dd className="text-foreground">{formatMoney(shipping)}</dd>
+          <dd className="tabular-nums text-foreground">
+            {shipping === 0 ? "Grátis" : formatMoney(shipping)}
+          </dd>
         </div>
         <div className="flex justify-between text-base font-medium">
           <dt className="text-foreground">Total</dt>
-          <dd className="text-foreground">{formatMoney(total)}</dd>
+          <dd className="tabular-nums text-foreground">{formatMoney(total)}</dd>
         </div>
       </dl>
 
