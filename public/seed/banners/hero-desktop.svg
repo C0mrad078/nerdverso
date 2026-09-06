@@ -1,14 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 960">
   <defs>
-    <radialGradient id="glow" cx="72%" cy="38%" r="65%">
+    <radialGradient id="glow" cx="72%" cy="38%" r="70%">
       <stop offset="0%" stop-color="#FF1C4C" stop-opacity="0.55"/>
       <stop offset="100%" stop-color="#141318" stop-opacity="0"/>
     </radialGradient>
+    <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0.35"/>
+      <stop offset="55%" stop-color="#000000" stop-opacity="0"/>
+    </linearGradient>
   </defs>
   <rect width="1920" height="960" fill="#141318"/>
   <rect width="1920" height="960" fill="url(#glow)"/>
-  <text x="153" y="499" font-family="Georgia, 'Times New Roman', serif" font-size="134"
-        font-weight="700" fill="#F6F1EE">NOVA COLECAO</text>
-  <text x="153" y="633" font-family="Arial, sans-serif" font-size="43"
-        fill="#F6F1EE" opacity="0.85">Pecas exclusivas de cultura geek. Edicao limitada.</text>
+  <rect width="1920" height="960" fill="url(#fade)"/>
 </svg>

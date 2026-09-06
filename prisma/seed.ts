@@ -542,42 +542,42 @@ async function seedProducts(
 }
 
 async function seedBanners() {
+  const heroBanner = {
+    internalTitle: "[DEV SEED] Home hero — nova coleção",
+    title: "Level up no seu guarda-roupa",
+    subtitle: "Camisetas e canecas de edição limitada pros seus fandoms favoritos.",
+    ctaLabel: "Entrar na coleção",
+    ctaLink: "/colecao/games",
+    imageDesktop: "/seed/banners/hero-desktop.svg",
+    imageMobile: "/seed/banners/hero-mobile.svg",
+    altText: "Banner de lançamento da nova coleção Nerdverso",
+    position: "home_hero",
+    order: 0,
+    active: true,
+  };
   await prisma.banner.upsert({
     where: { id: "banner-home-hero" },
-    update: {},
-    create: {
-      id: "banner-home-hero",
-      internalTitle: "[DEV SEED] Home hero — nova coleção",
-      title: "Nova coleção",
-      subtitle: "Peças exclusivas de cultura geek. Edição limitada.",
-      ctaLabel: "Ver coleção",
-      ctaLink: "/colecao/games",
-      imageDesktop: "/seed/banners/hero-desktop.svg",
-      imageMobile: "/seed/banners/hero-mobile.svg",
-      altText: "Banner de lançamento da nova coleção Nerdverso",
-      position: "home_hero",
-      order: 0,
-      active: true,
-    },
+    update: heroBanner,
+    create: { id: "banner-home-hero", ...heroBanner },
   });
 
+  const middleBanner = {
+    internalTitle: "[DEV SEED] Home middle — promoção",
+    title: "Descontos que viciam",
+    subtitle: "Até 30% off em peças selecionadas, só até acabar o estoque.",
+    ctaLabel: "Garantir a minha",
+    ctaLink: "/produtos?promo=1",
+    imageDesktop: "/seed/banners/promo-desktop.svg",
+    imageMobile: "/seed/banners/promo-mobile.svg",
+    altText: "Banner de promoção com até 30% de desconto",
+    position: "home_middle",
+    order: 0,
+    active: true,
+  };
   await prisma.banner.upsert({
     where: { id: "banner-home-middle" },
-    update: {},
-    create: {
-      id: "banner-home-middle",
-      internalTitle: "[DEV SEED] Home middle — promoção",
-      title: "Até 30% off",
-      subtitle: "Seleção de camisetas em promoção por tempo limitado.",
-      ctaLabel: "Aproveitar",
-      ctaLink: "/produtos?promo=1",
-      imageDesktop: "/seed/banners/promo-desktop.svg",
-      imageMobile: "/seed/banners/promo-mobile.svg",
-      altText: "Banner de promoção com até 30% de desconto",
-      position: "home_middle",
-      order: 0,
-      active: true,
-    },
+    update: middleBanner,
+    create: { id: "banner-home-middle", ...middleBanner },
   });
 }
 
