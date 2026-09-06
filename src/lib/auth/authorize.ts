@@ -59,7 +59,10 @@ export async function requirePermission(key: PermissionKey) {
   const session = await requireAdminSession();
   if (session.user.isOwner) return session;
   if (!session.user.permissions.includes(key)) {
-    redirect("/admin");
+    // Never redirect to /admin here: the dashboard itself requires
+    // dashboard.view, so a role without it would bounce straight back and
+    // loop forever. This page only requires being staff, not a permission.
+    redirect("/admin/sem-permissao");
   }
   return session;
 }
