@@ -8,6 +8,7 @@ import { prisma } from "@/lib/db/client";
 import { auth, signIn, signOut } from "@/lib/auth/config";
 import { hashPassword, verifyPassword } from "@/lib/auth/password";
 import { mergeGuestCartIntoUser } from "@/lib/cart/session";
+import { safeRedirectPath } from "@/lib/safe-redirect";
 import {
   addressSchema,
   changePasswordSchema,
@@ -80,8 +81,7 @@ export async function loginAction(_prev: FormState, formData: FormData): Promise
     await mergeGuestCartIntoUser(session.user.id);
   }
 
-  const callbackUrl = String(formData.get("callbackUrl") ?? "/conta");
-  redirect(callbackUrl.startsWith("/") ? callbackUrl : "/conta");
+  redirect(safeRedirectPath(String(formData.get("callbackUrl") ?? ""), "/conta"));
 }
 
 export async function logoutAction() {
@@ -131,7 +131,13 @@ export async function changePasswordAction(
   if (!valid) return { status: "error", message: "Senha atual incorreta." };
 
   const passwordHash = await hashPassword(parsed.data.newPassword);
-  await prisma.user.update({ where: { id: user.id }, data: { passwordHash } });
+  await prisma.$transaction([
+    prisma.user.update({ where: { id: user.id }, data: { passwordHash } }),
+    // A password change through the trusted "know your current password"
+    // path should retire any reset link requested earlier (e.g. by an
+    // attacker who triggered a reset email but never used it).
+    prisma.passwordResetToken.deleteMany({ where: { userId: user.id, usedAt: null } }),
+  ]);
 
   return { status: "success", message: "Senha alterada com sucesso." };
 }
@@ -222,13 +228,17 @@ export async function requestPasswordResetAction(
   if (!user) return generic;
 
   const rawToken = randomBytes(32).toString("hex");
-  await prisma.passwordResetToken.create({
-    data: {
-      userId: user.id,
-      tokenHash: hashToken(rawToken),
-      expiresAt: new Date(Date.now() + RESET_TOKEN_TTL_MS),
-    },
-  });
+  await prisma.$transaction([
+    // Only the newest link should ever work.
+    prisma.passwordResetToken.deleteMany({ where: { userId: user.id, usedAt: null } }),
+    prisma.passwordResetToken.create({
+      data: {
+        userId: user.id,
+        tokenHash: hashToken(rawToken),
+        expiresAt: new Date(Date.now() + RESET_TOKEN_TTL_MS),
+      },
+    }),
+  ]);
 
   const resetUrl = `/redefinir-senha?token=${rawToken}`;
   if (process.env.NODE_ENV !== "production") {
@@ -265,10 +275,10 @@ export async function resetPasswordAction(_prev: FormState, formData: FormData):
   const passwordHash = await hashPassword(newPassword);
   await prisma.$transaction([
     prisma.user.update({ where: { id: tokenRecord.userId }, data: { passwordHash } }),
-    prisma.passwordResetToken.update({
-      where: { id: tokenRecord.id },
-      data: { usedAt: new Date() },
-    }),
+    // Retire every outstanding token for this user, not just the one used —
+    // there should never be more than one live link, but this closes the
+    // gap if there ever is.
+    prisma.passwordResetToken.deleteMany({ where: { userId: tokenRecord.userId } }),
   ]);
 
   return { status: "success", message: "Senha redefinida. Você já pode entrar." };
