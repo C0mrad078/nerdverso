@@ -17,3 +17,19 @@ export const ORDER_STATUS_FLOW = [
   "SHIPPED",
   "DELIVERED",
 ] as const;
+
+/** Controlled status graph — the admin can only move an order forward along
+ * an edge listed here (or to a terminal state), never to an arbitrary status. */
+export const ORDER_STATUS_TRANSITIONS: Record<string, string[]> = {
+  AWAITING_PAYMENT: ["PAID", "CANCELED"],
+  PAID: ["IN_SEPARATION", "REFUNDED", "CANCELED"],
+  IN_SEPARATION: ["IN_PRODUCTION", "SHIPPED", "CANCELED"],
+  IN_PRODUCTION: ["SHIPPED", "CANCELED"],
+  SHIPPED: ["DELIVERED", "REFUNDED"],
+  DELIVERED: ["REFUNDED"],
+  CANCELED: [],
+  REFUNDED: [],
+};
+
+/** Statuses that should return items to sellable stock when entered. */
+export const RESTOCKING_STATUSES = new Set(["CANCELED", "REFUNDED"]);
