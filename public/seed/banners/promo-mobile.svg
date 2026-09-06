@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1100">
+  <defs>
+    <radialGradient id="glow" cx="72%" cy="38%" r="65%">
+      <stop offset="0%" stop-color="#FF1C4C" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#3A3840" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="900" height="1100" fill="#3A3840"/>
+  <rect width="900" height="1100" fill="url(#glow)"/>
+  <text x="72" y="572" font-family="Georgia, 'Times New Roman', serif" font-size="154"
+        font-weight="700" fill="#F6F1EE">ATE 30% OFF</text>
+  <text x="72" y="726" font-family="Arial, sans-serif" font-size="49"
+        fill="#F6F1EE" opacity="0.85">Selecao em promocao.</text>
+</svg>

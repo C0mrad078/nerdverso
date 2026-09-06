@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
+  <rect width="800" height="1000" fill="#3A3840"/>
+  <circle cx="620" cy="220" r="220" fill="#FF1C4C" opacity="0.18"/>
+  <text x="60" y="880" font-family="Georgia, 'Times New Roman', serif" font-size="220" font-weight="700" fill="#F6F1EE">AN</text>
+</svg>

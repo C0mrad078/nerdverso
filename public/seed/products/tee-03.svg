@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 700">
+  <rect width="600" height="700" fill="#F6F1EE"/>
+  <path d="M180 90 L245 60 Q300 100 355 60 L420 90 L500 165 L450 220 L420 195 L420 620 Q420 640 400 640 L200 640 Q180 640 180 620 L180 195 L150 220 L100 165 Z"
+        fill="#FF1C4C" stroke="#141318" stroke-width="6" stroke-linejoin="round"/>
+  <circle cx="300" cy="330" r="70" fill="#141318"/>
+  <text x="300" y="352" font-family="Georgia, 'Times New Roman', serif" font-size="46" font-weight="700"
+        text-anchor="middle" fill="#F6F1EE">AK</text>
+</svg>

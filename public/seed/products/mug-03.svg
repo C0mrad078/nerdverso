@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 700">
+  <rect width="600" height="700" fill="#F6F1EE"/>
+  <path d="M200 220 H380 V520 Q380 560 340 560 H240 Q200 560 200 520 Z"
+        fill="#FF1C4C" stroke="#141318" stroke-width="6"/>
+  <path d="M380 270 Q460 270 460 350 Q460 430 380 430" fill="none" stroke="#141318" stroke-width="14" stroke-linecap="round"/>
+  <circle cx="290" cy="380" r="62" fill="#141318"/>
+  <text x="290" y="400" font-family="Georgia, 'Times New Roman', serif" font-size="40" font-weight="700"
+        text-anchor="middle" fill="#F6F1EE">KP</text>
+</svg>
