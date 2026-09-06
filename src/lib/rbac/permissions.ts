@@ -19,6 +19,7 @@ export const PERMISSION_MODULES = {
   roles: ["view", "create", "update", "delete"],
   reports: ["view"],
   settings: ["view", "update"],
+  audit: ["view"],
 } as const;
 
 export type PermissionModule = keyof typeof PERMISSION_MODULES;
@@ -49,6 +50,7 @@ export const PERMISSION_LABELS: Record<PermissionModule, string> = {
   roles: "Cargos e permissões",
   reports: "Relatórios",
   settings: "Configurações",
+  audit: "Auditoria",
 };
 
 /** System roles seeded on install. Owner is protected and cannot be edited or removed. */

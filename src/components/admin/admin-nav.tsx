@@ -46,6 +46,7 @@ const NAV_GROUPS: {
       { href: "/admin/funcionarios", label: "Funcionários", permission: "employees.view" },
       { href: "/admin/cargos", label: "Cargos", permission: "roles.view" },
       { href: "/admin/configuracoes", label: "Configurações", permission: "settings.view" },
+      { href: "/admin/auditoria", label: "Auditoria", permission: "audit.view" },
     ],
   },
 ];

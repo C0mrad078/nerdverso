@@ -24,11 +24,7 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
   },
   {
     title: "Institucional",
-    links: [
-      { label: "Sobre a Nerdverso", href: "/sobre" },
-      { label: "Política de privacidade", href: "/privacidade" },
-      { label: "Termos de uso", href: "/termos" },
-    ],
+    links: [{ label: "Sobre a Nerdverso", href: "/sobre" }],
   },
   {
     title: "Conta",
@@ -42,6 +38,12 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
 
 export async function SiteFooter() {
   const settings = await getStoreSetting();
+
+  const institutionalLinks = [
+    ...COLUMNS[2].links,
+    { label: "Política de privacidade", href: settings?.privacyUrl || "/privacidade" },
+    { label: "Termos de uso", href: settings?.termsUrl || "/termos" },
+  ];
 
   return (
     <footer className="border-t border-border bg-background">
@@ -60,6 +62,28 @@ export async function SiteFooter() {
             Loja independente de camisetas, canecas e produtos geek. Games, animes, K-pop,
             bandas e cultura pop em coleções exclusivas.
           </p>
+          {(settings?.email || settings?.whatsapp || settings?.addressLine) && (
+            <ul className="flex flex-col gap-1 text-sm text-muted-foreground">
+              {settings?.email && (
+                <li>
+                  <Link href={`mailto:${settings.email}`} className="hover:text-foreground">
+                    {settings.email}
+                  </Link>
+                </li>
+              )}
+              {settings?.whatsapp && (
+                <li>
+                  <Link
+                    href={`https://wa.me/${settings.whatsapp.replace(/\D/g, "")}`}
+                    className="hover:text-foreground"
+                  >
+                    {settings.whatsapp}
+                  </Link>
+                </li>
+              )}
+              {settings?.addressLine && <li>{settings.addressLine}</li>}
+            </ul>
+          )}
           <div className="flex gap-3">
             {settings?.instagram && (
               <Link
@@ -86,7 +110,7 @@ export async function SiteFooter() {
           <div key={column.title} className="flex flex-col gap-3">
             <h3 className="text-sm font-medium text-foreground">{column.title}</h3>
             <ul className="flex flex-col gap-2">
-              {column.links.map((link) => (
+              {(column.title === "Institucional" ? institutionalLinks : column.links).map((link) => (
                 <li key={link.label}>
                   <Link
                     href={link.href}

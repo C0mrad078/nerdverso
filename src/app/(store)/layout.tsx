@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import "../globals.css";
 import { fontVariables } from "@/lib/fonts";
+import { getStoreSetting } from "@/lib/data/storefront";
 import { AnnouncementBar } from "@/components/storefront/announcement-bar";
 import { SiteHeader } from "@/components/storefront/site-header";
 import { SiteFooter } from "@/components/storefront/site-footer";
@@ -9,18 +10,24 @@ import { ReferralTracker } from "@/components/storefront/referral-tracker";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: {
-    default: "Nerdverso — Cultura geek em camisetas e canecas",
-    template: "%s | Nerdverso",
-  },
-  description:
-    "Nerdverso é a loja independente de camisetas, canecas e produtos geek: games, animes, K-pop, bandas e cultura pop em coleções exclusivas.",
-  other: {
-    "theme-color": "#000000",
-  },
-};
+const DEFAULT_TITLE = "Nerdverso — Cultura geek em camisetas e canecas";
+const DEFAULT_DESCRIPTION =
+  "Nerdverso é a loja independente de camisetas, canecas e produtos geek: games, animes, K-pop, bandas e cultura pop em coleções exclusivas.";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getStoreSetting();
+  const title = settings?.seoTitle || DEFAULT_TITLE;
+  const description = settings?.seoDescription || DEFAULT_DESCRIPTION;
+
+  return {
+    metadataBase: new URL(siteUrl),
+    title: { default: title, template: `%s | ${settings?.storeName ?? "Nerdverso"}` },
+    description,
+    other: {
+      "theme-color": "#000000",
+    },
+  };
+}
 
 export default function StoreLayout({ children }: LayoutProps<"/">) {
   return (

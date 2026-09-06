@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { prisma } from "@/lib/db/client";
 import { Status } from "@/generated/prisma/client";
 
@@ -97,9 +98,9 @@ export async function getNiches(): Promise<NicheData[]> {
   return collections;
 }
 
-export async function getStoreSetting() {
+export const getStoreSetting = cache(async () => {
   return prisma.storeSetting.findUnique({ where: { id: "singleton" } });
-}
+});
 
 export type CategoryData = {
   id: string;
